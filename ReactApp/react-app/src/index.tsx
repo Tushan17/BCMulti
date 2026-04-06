@@ -1,16 +1,28 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
-// In Business Central the container div is created by controlAddin-events.js.
-// In dev mode (npm run dev) it is provided by index.html.
-const container = document.getElementById('controlAddIn');
+function mount() {
+  // BC creates div#controlAddIn automatically; events.js also ensures it exists.
+  // Fallback: create it ourselves if somehow still missing.
+  let container = document.getElementById('controlAddIn');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'controlAddIn';
+    container.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;';
+    document.body.appendChild(container);
+  }
 
-if (container) {
   const root = createRoot(container);
   root.render(
-    <React.StrictMode>
+    <StrictMode>
       <App />
-    </React.StrictMode>
+    </StrictMode>
   );
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', mount);
+} else {
+  mount();
 }

@@ -20,14 +20,31 @@
 (function () {
   'use strict';
 
-  // ── 1. Create the React mount point ───────────────────────────────────────
-  var container = document.createElement('div');
-  container.id = 'controlAddIn';
-  container.style.height = '100%';
-  document.body.style.margin = '0';
-  document.body.style.padding = '0';
-  document.body.style.height = '100%';
-  document.body.appendChild(container);
+  // ── 1. Create / configure the React mount point ──────────────────────────
+  // BC may or may not pre-create div#controlAddIn.
+  // We use absolute positioning so height never depends on the parent cascade.
+  function initContainer() {
+    var container = document.getElementById('controlAddIn');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'controlAddIn';
+      document.body.appendChild(container);
+    }
+    // Fill the entire iframe viewport regardless of html/body height
+    document.documentElement.style.cssText =
+      'height:100%;margin:0;padding:0;';
+    document.body.style.cssText =
+      'height:100%;margin:0;padding:0;position:relative;overflow:hidden;';
+    container.style.cssText =
+      'position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;';
+  }
+
+  // Guard against scripts running before <body> exists (injected in <head>)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContainer);
+  } else {
+    initContainer();
+  }
 
   // ── 2. Queue data that arrives before React is mounted ────────────────────
   var pendingData = null;
