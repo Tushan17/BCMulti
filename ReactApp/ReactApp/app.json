@@ -27,5 +27,6 @@
     "allowDebugging": true,
     "allowDownloadingSource": false,
     "includeSourceInSymbolFile": false
-  }
+  },
+"runtime": "15.0"
 }

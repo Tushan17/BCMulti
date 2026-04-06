@@ -1,5 +1,27 @@
 {
     "version": "0.2.0",
     "configurations": [
+         {
+            "name": "Publish: Tushan",
+            "type": "al",
+            "request": "launch",
+            "environmentType": "OnPrem",
+            "server": "http://127.0.0.1:8080/BC260",
+            "serverInstance": "BC260",
+            "port": 7049,
+            "authentication": "UserPassword",
+            "startupObjectId": 50010,
+            "breakOnError": "ExcludeTry",
+            "breakOnRecordWrite": "None",
+            "launchBrowser": true,
+            "enableSqlInformationDebugger": true,
+            "enableLongRunningSqlStatements": true,
+            "longRunningSqlStatementsThreshold": 500,
+            "numberOfSqlStatements": 10,
+            // "tenant": "default",
+            "usePublicURLFromServer": true,
+            "schemaUpdateMode": "ForceSync"
+            
+        }
     ]
 }
