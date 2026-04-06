@@ -10,7 +10,7 @@
             "serverInstance": "BC260",
             "port": 7049,
             "authentication": "UserPassword",
-            "startupObjectId": 50010,
+            "startupObjectId": 51001,
             "breakOnError": "ExcludeTry",
             "breakOnRecordWrite": "None",
             "launchBrowser": true,

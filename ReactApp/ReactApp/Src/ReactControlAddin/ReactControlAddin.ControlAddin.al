@@ -18,8 +18,8 @@
 /// </summary>
 controladdin ReactControlAddIn
 {
-    RequestedHeight = 300;
-    MinimumHeight = 200;
+    RequestedHeight = 500;
+    MinimumHeight = 500;
     VerticalStretch = true;
     VerticalShrink = true;
     HorizontalStretch = true;
