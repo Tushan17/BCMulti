@@ -121,9 +121,10 @@ page 51100 "Generic Demo Card"
                 begin
                     ReactReadOnly := not ReactReadOnly;
                     // Send the read-only flag using the generic message channel
-                    CurrPage.GenericAddin.SendMessage(
-                        'demo.readonly',
-                        Format(ReactReadOnly, 0, 9).ToLower());
+                    if ReactReadOnly then
+                        CurrPage.GenericAddin.SendMessage('demo.readonly', 'true')
+                    else
+                        CurrPage.GenericAddin.SendMessage('demo.readonly', 'false');
                 end;
             }
         }

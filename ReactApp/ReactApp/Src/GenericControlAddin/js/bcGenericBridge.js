@@ -6,9 +6,9 @@
  *
  * BC  →  React:
  *   AL calls  CurrPage.GenericAddin.SendMessage(msgType, payloadJson)
- *   → this file's window.BCGenericBridge.fromBC(type, payloadJson) is exposed
- *     so the control-addin binding can forward the call into the module.
- *   → bcGenericBridge.ts routes the payload to the registered service handlers.
+ *   → the BC runtime looks for window.SendMessage and calls it
+ *   → this file queues or forwards the call to the TS module handler
+ *     (window.BCGenericBridge.fromBC) which bcGenericBridge.ts installs.
  *
  * React  →  BC:
  *   A service calls sendToBC(type, payload)  (in bcGenericBridge.ts)
@@ -18,7 +18,8 @@
  *
  * Ready handshake:
  *   bcGenericBridge.ts dispatches 'bcgb:ready'
- *   → this file calls InvokeExtensibilityMethod('ControlReady', [])
+ *   → this file flushes any queued messages and calls
+ *     InvokeExtensibilityMethod('ControlReady', [])
  * ─────────────────────────────────────────────────────────────────────────────
  */
 (function () {
@@ -49,26 +50,26 @@
   var pendingMessages = []; // [{type, payloadJson}]
   var reactReady = false;
 
-  // ── 3. Expose the hook that the React module (bcGenericBridge.ts) installs ─
-  //
-  // bcGenericBridge.ts sets  window.BCGenericBridge = { fromBC: fn }  when the
-  // module initialises.  Messages queued before that point are replayed once
-  // React signals readiness.
-  //
-  // This stub is replaced by the real implementation when the TS module loads,
-  // but we keep it here so AL can safely call SendMessage at any time.
-  if (!window.BCGenericBridge) {
-    window.BCGenericBridge = {
-      fromBC: function (type, payloadJson) {
-        if (reactReady) {
-          // bcGenericBridge.ts has installed the real handler — call it.
-          window.BCGenericBridge.fromBC(type, payloadJson);
-        } else {
-          pendingMessages.push({ type: type, payloadJson: payloadJson });
-        }
-      },
-    };
-  }
+  // Placeholder so bcGenericBridge.ts can always write to this object.
+  // The TS module overwrites window.BCGenericBridge with the real handler.
+  window.BCGenericBridge = window.BCGenericBridge || {};
+
+  // ── 3. BC → React: exposed global called by the SendMessage procedure ─────
+
+  /**
+   * Called by BC: CurrPage.GenericAddin.SendMessage(msgType, payloadJson)
+   * The BC runtime looks for a global function named 'SendMessage'.
+   * Once React is ready, messages are forwarded immediately to the TS handler.
+   * Messages that arrive before React is ready are queued and flushed later.
+   */
+  window.SendMessage = function (msgType, payloadJson) {
+    var json = payloadJson || 'null';
+    if (reactReady && typeof window.BCGenericBridge.fromBC === 'function') {
+      window.BCGenericBridge.fromBC(msgType, json);
+    } else {
+      pendingMessages.push({ type: msgType, payloadJson: json });
+    }
+  };
 
   // ── 4. Listen for React → BC messages ────────────────────────────────────
 
@@ -85,7 +86,8 @@
 
   /**
    * bcGenericBridge.ts dispatches 'bcgb:ready' when the root component mounts.
-   * We then flush any queued messages and notify BC.
+   * By this point the TS module has installed window.BCGenericBridge.fromBC.
+   * We flush queued messages and notify BC.
    */
   window.addEventListener('bcgb:ready', function () {
     reactReady = true;
@@ -94,7 +96,9 @@
     var queued = pendingMessages.slice();
     pendingMessages = [];
     queued.forEach(function (msg) {
-      window.BCGenericBridge.fromBC(msg.type, msg.payloadJson);
+      if (typeof window.BCGenericBridge.fromBC === 'function') {
+        window.BCGenericBridge.fromBC(msg.type, msg.payloadJson);
+      }
     });
 
     // Notify BC — fires the AL event ControlReady()
@@ -117,3 +121,4 @@
     }
   }
 })();
+

@@ -16,7 +16,7 @@ import path from 'path';
 const OUT_DIR = path.resolve(__dirname, '../ReactApp/Src/GenericControlAddin');
 
 // A minimal index.html to satisfy Vite's HTML-first mode is not needed here
-// because we use lib/input directly via rollupOptions.
+// because the entry point is resolved directly via rollupOptions.input.
 export default defineConfig({
   plugins: [react()],
   build: {
