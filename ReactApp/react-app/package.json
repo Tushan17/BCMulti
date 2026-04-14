@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:generic": "tsc -b && vite build --config vite.config.generic.ts",
     "preview": "vite preview"
   },
   "dependencies": {
