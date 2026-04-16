@@ -5,7 +5,7 @@ page 51001 "React Demo List"
     Caption = 'React Demo Records';
     ApplicationArea = All;
     UsageCategory = Lists;
-    CardPageId = "React Demo Card";
+    CardPageId = "Generic Demo Card";
 
     layout
     {
@@ -54,7 +54,7 @@ page 51001 "React Demo List"
                 begin
                     DemoRec.Init();
                     DemoRec.Insert(true);
-                    Page.Run(Page::"React Demo Card", DemoRec);
+                    Page.Run(Page::"Generic Demo Card", DemoRec);
                 end;
             }
         }

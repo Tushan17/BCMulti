@@ -1,11 +1,11 @@
 /**
  * genericIndex.tsx
  * Entry point for the generic-bridge build.
- * Mounts GenericApp (service-based, uses bcGenericBridge) instead of App.
+ * Mounts App (uses demoRecordService → bcGenericBridge).
  */
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import GenericApp from './GenericApp';
+import App from './App';
 
 function mount() {
   let container = document.getElementById('controlAddIn');
@@ -20,7 +20,7 @@ function mount() {
   const root = createRoot(container);
   root.render(
     <StrictMode>
-      <GenericApp />
+      <App />
     </StrictMode>
   );
 }

@@ -1,35 +1,35 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { BCRecord } from './bcBridge';
-import { sendDataToBC, triggerBCAction, onBCLoadData, onBCSetReadOnly, notifyControlReady } from './bcBridge';
-import DataForm from './components/DataForm';
+import type { DemoRecord } from './services/demoRecordService';
+import { onRecordLoaded, onReadOnlyChanged, saveRecord, triggerAction, notifyControlReady } from './services/demoRecordService';
+import GenericDataForm from './components/GenericDataForm';
 import './App.css';
 
-const DEFAULT_DATA: BCRecord = {
+
+const DEFAULT_DATA: DemoRecord = {
   name: '',
   description: '',
   amount: 0,
-  readOnly: false,
 };
 
 export default function App() {
-  const [record, setRecord] = useState<BCRecord>(DEFAULT_DATA);
+  const [record, setRecord] = useState<DemoRecord>(DEFAULT_DATA);
   const [readOnly, setReadOnly] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [lastSync, setLastSync] = useState<Date | null>(null);
 
   useEffect(() => {
     // Register listeners for data coming from BC
-    const cleanupData = onBCLoadData((data) => {
+    const cleanupData = onRecordLoaded((data) => {
       setRecord(data);
       setIsConnected(true);
       setLastSync(new Date());
     });
 
-    const cleanupReadOnly = onBCSetReadOnly((ro) => {
+    const cleanupReadOnly = onReadOnlyChanged((ro) => {
       setReadOnly(ro);
     });
 
-    // Tell BC we are ready — BC will respond by calling LoadData()
+    // Tell BC we are ready — BC will respond by sending the record
     notifyControlReady();
 
     return () => {
@@ -38,14 +38,14 @@ export default function App() {
     };
   }, []);
 
-  const handleChange = useCallback((updated: BCRecord) => {
+  const handleChange = useCallback((updated: DemoRecord) => {
     setRecord(updated);
-    sendDataToBC(updated);
+    saveRecord(updated);
     setLastSync(new Date());
   }, []);
 
   const handleAction = useCallback((action: string) => {
-    triggerBCAction(action);
+    triggerAction(action);
   }, []);
 
   return (
@@ -62,7 +62,7 @@ export default function App() {
         )}
       </div>
 
-      <DataForm
+      <GenericDataForm
         record={record}
         readOnly={readOnly}
         onChange={handleChange}

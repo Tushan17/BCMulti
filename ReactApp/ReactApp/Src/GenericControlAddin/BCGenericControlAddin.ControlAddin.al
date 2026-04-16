@@ -17,7 +17,7 @@
 ///   2. react-addin.js      – compiled React bundle (built with genericIndex.tsx)
 ///
 /// Build the React bundle for this addin with:
-///   cd react-app && npm run build:generic
+///   cd react-app  npm run build:generic
 /// </summary>
 controladdin BCGenericControlAddIn
 {
