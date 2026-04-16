@@ -1,3 +1,5 @@
+namespace Tushan.ReactApp;
+
 permissionset 51000 GeneratedPermission
 {
     Assignable = true;

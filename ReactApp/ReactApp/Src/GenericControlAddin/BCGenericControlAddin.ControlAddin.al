@@ -1,3 +1,5 @@
+namespace Tushan.ReactApp;
+
 /// <summary>
 /// BCGenericControlAddIn
 /// Generic, message-type-routed bridge between Business Central pages and a

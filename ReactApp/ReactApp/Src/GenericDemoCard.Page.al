@@ -1,3 +1,5 @@
+namespace Tushan.ReactApp;
+
 /// <summary>
 /// Generic Demo Card
 /// Demonstrates how to wire a BC page to the BCGenericControlAddIn.

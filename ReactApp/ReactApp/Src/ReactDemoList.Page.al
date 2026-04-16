@@ -1,3 +1,5 @@
+namespace Tushan.ReactApp;
+
 page 51001 "React Demo List"
 {
     PageType = List;
