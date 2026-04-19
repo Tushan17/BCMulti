@@ -3,10 +3,10 @@
 /// Grants RIMD on the Angular Demo Record table and allows access to the
 /// Angular Demo List and Angular Demo Card pages.
 /// </summary>
-permissionset 51501 "AngularApp - All Objects"
+permissionset 51501 "AngularApp - Full"
 {
     Assignable = true;
-    Caption    = 'AngularApp – All Objects';
+    Caption    = 'AngularApp - Full';
 
     Permissions =
         tabledata "Angular Demo Record" = RIMD,
