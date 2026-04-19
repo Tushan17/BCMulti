@@ -1,3 +1,5 @@
+namespace Tushan.ReactApp;
+
 table 51000 "React Demo Record"
 {
     Caption = 'React Demo Record';

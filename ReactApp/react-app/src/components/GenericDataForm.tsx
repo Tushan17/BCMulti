@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
-import type { BCRecord } from '../bcBridge';
+import type { DemoRecord } from '../services/demoRecordService';
 
 interface Props {
-  record: BCRecord;
+  record: DemoRecord;
   readOnly: boolean;
-  onChange: (updated: BCRecord) => void;
+  onChange: (updated: DemoRecord) => void;
   onAction: (action: string) => void;
 }
 
-export default function DataForm({ record, readOnly, onChange, onAction }: Props) {
-  // Local state mirrors the record so we only push to BC on explicit save/blur
-  const [local, setLocal] = useState<BCRecord>(record);
+export default function GenericDataForm({
+  record,
+  readOnly,
+  onChange,
+  onAction,
+}: Props) {
+  const [local, setLocal] = useState<DemoRecord>(record);
   const [isDirty, setIsDirty] = useState(false);
 
-  // Sync local state when BC sends a fresh record
+  // Sync local state when BC pushes a fresh record
   useEffect(() => {
     setLocal(record);
     setIsDirty(false);
   }, [record]);
 
-  const handleField = (field: keyof BCRecord, value: string | number) => {
+  const handleField = (field: keyof DemoRecord, value: string | number) => {
     setLocal((prev) => ({ ...prev, [field]: value }));
     setIsDirty(true);
   };
@@ -37,9 +41,11 @@ export default function DataForm({ record, readOnly, onChange, onAction }: Props
   return (
     <div className="bc-form">
       <div className="bc-form-row">
-        <label htmlFor="bc-name" className="bc-label">Name</label>
+        <label htmlFor="gc-name" className="bc-label">
+          Name
+        </label>
         <input
-          id="bc-name"
+          id="gc-name"
           className="bc-input"
           type="text"
           value={local.name}
@@ -50,9 +56,11 @@ export default function DataForm({ record, readOnly, onChange, onAction }: Props
       </div>
 
       <div className="bc-form-row">
-        <label htmlFor="bc-description" className="bc-label">Description</label>
+        <label htmlFor="gc-description" className="bc-label">
+          Description
+        </label>
         <textarea
-          id="bc-description"
+          id="gc-description"
           className="bc-input bc-textarea"
           value={local.description}
           disabled={readOnly}
@@ -63,14 +71,18 @@ export default function DataForm({ record, readOnly, onChange, onAction }: Props
       </div>
 
       <div className="bc-form-row">
-        <label htmlFor="bc-amount" className="bc-label">Amount</label>
+        <label htmlFor="gc-amount" className="bc-label">
+          Amount
+        </label>
         <input
-          id="bc-amount"
+          id="gc-amount"
           className="bc-input bc-input-number"
           type="number"
           value={local.amount}
           disabled={readOnly}
-          onChange={(e) => handleField('amount', parseFloat(e.target.value) || 0)}
+          onChange={(e) =>
+            handleField('amount', parseFloat(e.target.value) || 0)
+          }
           step="0.01"
         />
       </div>

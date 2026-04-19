@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/bcbridge.ts","./src/index.tsx","./src/components/dataform.tsx"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/bcgenericbridge.ts","./src/genericindex.tsx","./src/index.tsx","./src/components/genericdataform.tsx","./src/services/demorecordservice.ts","./src/services/bridge/bcgenericbridge.ts"],"version":"5.9.3"}
