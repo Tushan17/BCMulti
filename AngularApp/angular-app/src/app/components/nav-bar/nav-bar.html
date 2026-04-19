@@ -1,0 +1,9 @@
+<p-menubar [model]="menuItems" styleClass="bc-navbar">
+  <ng-template pTemplate="end">
+    @if (connected$ | async) {
+      <p-tag value="Connected" severity="success" icon="pi pi-check-circle" />
+    } @else {
+      <p-tag value="Waiting for BC…" severity="warn" icon="pi pi-spin pi-spinner" />
+    }
+  </ng-template>
+</p-menubar>

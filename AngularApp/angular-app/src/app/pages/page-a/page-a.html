@@ -1,0 +1,90 @@
+<p-card styleClass="bc-page-card">
+  <ng-template pTemplate="title">
+    <div class="page-header">
+      <i class="pi pi-home page-icon"></i>
+      <span>Dashboard – BC Record Editor</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="subtitle">
+    @if (lastSync) {
+      <span>Last synced: {{ lastSync | date: 'HH:mm:ss' }}</span>
+    } @else {
+      <span>Waiting for Business Central data…</span>
+    }
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    @if (isDirty) {
+      <p-message severity="warn" text="You have unsaved changes." styleClass="mb-3 w-full" />
+    }
+
+    <div class="field-row">
+      <label class="field-label" for="pg-a-name">Name</label>
+      <input
+        id="pg-a-name"
+        pInputText
+        [(ngModel)]="localRecord.name"
+        [disabled]="readOnly"
+        (ngModelChange)="onFieldChange()"
+        placeholder="Enter name…"
+        class="w-full"
+      />
+    </div>
+
+    <div class="field-row">
+      <label class="field-label" for="pg-a-description">Description</label>
+      <textarea
+        id="pg-a-description"
+        pTextarea
+        [(ngModel)]="localRecord.description"
+        [disabled]="readOnly"
+        (ngModelChange)="onFieldChange()"
+        placeholder="Enter description…"
+        rows="3"
+        class="w-full"
+      ></textarea>
+    </div>
+
+    <div class="field-row">
+      <label class="field-label" for="pg-a-amount">Amount</label>
+      <p-inputnumber
+        inputId="pg-a-amount"
+        [(ngModel)]="localRecord.amount"
+        [disabled]="readOnly"
+        (ngModelChange)="onFieldChange()"
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        class="w-full"
+      />
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    @if (!readOnly) {
+      <div class="action-row">
+        <p-button
+          label="Save to BC"
+          icon="pi pi-save"
+          [disabled]="!isDirty"
+          (onClick)="saveToBC()"
+        />
+        <p-button
+          label="Discard"
+          icon="pi pi-times"
+          severity="secondary"
+          [disabled]="!isDirty"
+          (onClick)="discardChanges()"
+        />
+        <p-button
+          label="Refresh"
+          icon="pi pi-refresh"
+          severity="info"
+          outlined
+          (onClick)="refreshFromBC()"
+        />
+      </div>
+    }
+  </ng-template>
+</p-card>

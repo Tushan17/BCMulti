@@ -1,0 +1,32 @@
+{
+  "id": "c7e82f14-3a91-4b2d-9f05-d8e6a01bc723",
+  "name": "AngularApp",
+  "publisher": "Tushan",
+  "version": "1.0.0.0",
+  "brief": "Angular + PrimeNG control addin for Business Central",
+  "description": "Demonstrates embedding an Angular 21 + PrimeNG 21 application inside Business Central using a control addin. Supports two addin instances on the same page (Page A: Dashboard, Page B: Details), two-way data binding, and BC-driven page routing.",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "22.0.0.0",
+  "idRanges": [
+    {
+      "from": 51501,
+      "to": 52000
+    }
+  ],
+  "features": [
+    "NoImplicitWith"
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "15.0"
+}

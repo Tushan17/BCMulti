@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.bc-page-card {
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-icon {
+  font-size: 1.25rem;
+  color: var(--p-primary-color);
+}
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--p-text-muted-color);
+}
+
+.action-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
