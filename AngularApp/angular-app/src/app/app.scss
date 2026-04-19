@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.bc-addin-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--p-font-family);
+}
+
+.bc-addin-content {
+  flex: 1;
+  overflow: auto;
+}

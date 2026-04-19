@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.bc-page-card {
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-icon {
+  font-size: 1.25rem;
+  color: var(--p-primary-color);
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.detail-icon {
+  font-size: 1.25rem;
+  color: var(--p-primary-color);
+  margin-top: 0.1rem;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--p-text-muted-color);
+}
+
+.detail-value {
+  font-size: 1rem;
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}

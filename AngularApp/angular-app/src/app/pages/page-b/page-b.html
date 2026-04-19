@@ -1,0 +1,50 @@
+<p-card styleClass="bc-page-card">
+  <ng-template pTemplate="title">
+    <div class="page-header">
+      <i class="pi pi-list page-icon"></i>
+      <span>Details – BC Record Viewer</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="subtitle">
+    @if (lastSync) {
+      <span>Last synced: {{ lastSync | date: 'HH:mm:ss' }}</span>
+    } @else {
+      <span>Waiting for Business Central data…</span>
+    }
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <p-dataview [value]="details">
+      <ng-template #list let-items>
+        @for (item of items; track item.label) {
+          <div class="detail-row">
+            <i [class]="item.icon + ' detail-icon'"></i>
+            <div class="detail-content">
+              <span class="detail-label">{{ item.label }}</span>
+              <span class="detail-value">{{ item.value }}</span>
+            </div>
+          </div>
+          <p-divider />
+        }
+      </ng-template>
+    </p-dataview>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="action-row">
+      <p-tag
+        [value]="readOnly ? 'Read-Only' : 'Editable'"
+        [severity]="readOnly ? 'danger' : 'success'"
+        [icon]="readOnly ? 'pi pi-lock' : 'pi pi-lock-open'"
+      />
+      <p-button
+        label="Refresh from BC"
+        icon="pi pi-refresh"
+        severity="info"
+        outlined
+        (onClick)="refreshFromBC()"
+      />
+    </div>
+  </ng-template>
+</p-card>

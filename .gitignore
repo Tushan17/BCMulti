@@ -19,3 +19,13 @@ rad.json
 .snapshots/
 cache_*
 ~$*
+
+# Node / Angular
+node_modules/
+AngularApp/angular-app/dist/
+AngularApp/angular-app/.angular/
+ReactApp/react-app/dist/
+ReactApp/react-app/.vite/
+
+# Angular intermediate BC build output (final artifacts are js/ and css/)
+AngularApp/AngularApp/Src/AngularControlAddin/dist/
