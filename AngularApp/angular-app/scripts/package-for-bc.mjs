@@ -7,11 +7,13 @@
  *   ../AngularApp/Src/AngularControlAddin/dist/browser/
  *     main.js
  *     styles.css
+ *     media/          ← PrimeIcons fonts
  *
  * Output:
  *   ../AngularApp/Src/AngularControlAddin/
  *     js/angular-addin.js
  *     css/angular-addin.css
+ *     css/media/      ← PrimeIcons fonts (referenced from angular-addin.css)
  *
  * Usage: node scripts/package-for-bc.mjs
  * ─────────────────────────────────────────────────────────────────────────────
@@ -56,11 +58,24 @@ if (existsSync(stylesCss)) {
   copyFileSync(stylesCss, join(OUT_CSS, 'angular-addin.css'));
   console.log('[package-for-bc] Copied styles.css → css/angular-addin.css');
 } else {
-  // Write an empty file so the AL reference doesn't break
   import('fs').then(({ writeFileSync }) => {
     writeFileSync(join(OUT_CSS, 'angular-addin.css'), '/* Angular styles */\n');
     console.log('[package-for-bc] Created empty css/angular-addin.css');
   });
+}
+
+// Copy media fonts (PrimeIcons referenced from the CSS as ./media/...)
+const mediaDir = join(DIST, 'media');
+const outMediaDir = join(OUT_CSS, 'media');
+if (existsSync(mediaDir)) {
+  mkdirSync(outMediaDir, { recursive: true });
+  const fontFiles = readdirSync(mediaDir);
+  for (const file of fontFiles) {
+    copyFileSync(join(mediaDir, file), join(outMediaDir, file));
+    console.log(`[package-for-bc] Copied media/${file}`);
+  }
+} else {
+  console.log('[package-for-bc] No media folder found (PrimeIcons may not have been bundled).');
 }
 
 console.log('[package-for-bc] Done. Files ready in AngularApp/Src/AngularControlAddin/');
